@@ -4,7 +4,7 @@ var routes = function(Product){
     // router setup
     var productRouter = express.Router();
 
-    var productController = require('../controllers/productController')(Product);
+    var productController = require('../Controllers/productController')(Product);
     productRouter.route('/')
         .post(productController.post)
         .get(productController.get);
