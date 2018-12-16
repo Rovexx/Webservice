@@ -1,18 +1,23 @@
 var productController = function(Product){
     var post = function(req, res){
         var product = new Product(req.body);
-        //save the product
-        product.save();
-        //send status back
-        res.status(201).send(product);
+        
+        if(!req.body.name){
+            res.status(400);
+            res.send("Name is required");
+        }
+        else{
+            //save the product
+            product.save();
+            //send status back
+            res.status(201)
+            res.send(product);
+        }
     }
 
     var get = function(req, res){
         // filter
         var query = {};
-        // for(var q in req.query){
-        //     query.q = q;
-        // }
         if (req.query.name){
             query.name = req.query.name;
         }

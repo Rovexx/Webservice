@@ -27,9 +27,12 @@ var routes = function(Product){
     productRouter.route('/:productId')
         .get(function(req, res){
             var returnProduct = req.product.toJSON();
+            // links
             returnProduct.links = {};
-            var newLink = 'http://' + req.headers.host + '/api/products/?brand=' + returnProduct.brand;
-            returnProduct.links.FilterByThisBrand = newLink.replace(' ', '%20');
+            var brandFilter = 'http://' + req.headers.host + '/api/products/?brand=' + returnProduct.brand;
+            returnProduct.links.FilterByThisBrand = brandFilter.replace(' ', '%20');
+            var nameFilter = 'http://' + req.headers.host + '/api/products/?name=' + returnProduct.name;
+            returnProduct.links.FilterByThisName = nameFilter.replace(' ', '%20');
             res.json(returnProduct);
         })
 
