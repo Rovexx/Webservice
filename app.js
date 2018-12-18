@@ -1,17 +1,17 @@
-var express = require('express'),
+let express = require('express'),
     mongoose = require('mongoose');
     bodyParser = require('body-parser');
-var db = mongoose.connect('mongodb://localhost/productAPI', { useNewUrlParser: true }).then(() => {
+let db = mongoose.connect('mongodb://localhost/productAPI', { useNewUrlParser: true }).then(() => {
     console.log("Connected to Database");
     }).catch((err) => {
         console.log("Not Connected to Database ERROR! ", err);
     });
 // create product model
-var Product = require('./models/productModel');
+let Product = require('./models/productModel');
 
 // api setup
-var app = express();
-var port = process.env.PORT || 8000;
+let app = express();
+let port = process.env.PORT || 8000;
 
 // bodyparser setup
 app.use(bodyParser.urlencoded({extended:true}));

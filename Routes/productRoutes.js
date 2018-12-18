@@ -1,10 +1,10 @@
-var express = require('express');
+let express = require('express');
 
-var routes = function(Product){
+let routes = function(Product){
     // router setup
-    var productRouter = express.Router();
+    let productRouter = express.Router();
 
-    var productController = require('../Controllers/productController')(Product);
+    let productController = require('../Controllers/productController')(Product);
     productRouter.route('/')
         //Options collection
         .options(function(req, res){
@@ -35,14 +35,15 @@ var routes = function(Product){
     //individual products
     productRouter.route('/:productId')
         .get(function(req, res){
-            var returnProduct = req.product.toJSON();
+            let returnProduct = req.product.toJSON();
             // links
             returnProduct.links = {};
-            var brandFilter = 'http://' + req.headers.host + '/api/products/?brand=' + returnProduct.brand;
+            let brandFilter = 'http://' + req.headers.host + '/api/products/?brand=' + returnProduct.brand;
             returnProduct.links.FilterByThisBrand = brandFilter.replace(' ', '%20');
-            var nameFilter = 'http://' + req.headers.host + '/api/products/?name=' + returnProduct.name;
+            let nameFilter = 'http://' + req.headers.host + '/api/products/?name=' + returnProduct.name;
             returnProduct.links.FilterByThisName = nameFilter.replace(' ', '%20');
             res.json(returnProduct);
+
         })
 
         .put(function(req, res){
@@ -62,7 +63,7 @@ var routes = function(Product){
             if(req.body._id){
                 delete req.body._id;
             }
-            for(var p in req.body){
+            for(let p in req.body){
                 req.product[p] = req.body[p];
             }
             req.product.save(function(err){
