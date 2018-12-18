@@ -6,7 +6,14 @@ var routes = function(Product){
 
     var productController = require('../Controllers/productController')(Product);
     productRouter.route('/')
-        .options()
+        //Options collection
+        .options(function(req, res){
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
+            res.header('Allow', 'GET,POST,OPTIONS');
+            res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+            res.send(200);
+        })
         .post(productController.post)
         .get(productController.get);
 
@@ -23,25 +30,9 @@ var routes = function(Product){
                 res.status(404).send('No product found');
             }
         });
-        Product.options('/productId', function(req, res, next){
-            res.header("Access-Control-Allow-Origin", "*");
-            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
-            res.header('Allow', 'GET,PUT,POST,DELETE,OPTIONS');
-            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-            res.send(200);
-        });
-    })
-    //Options
-    productRouter.options('/', (req, res) => { 
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
-        res.header('Allow', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
-        res.send(200);
     })
 
     //individual products
-
     productRouter.route('/:productId')
         .get(function(req, res){
             var returnProduct = req.product.toJSON();
@@ -90,6 +81,14 @@ var routes = function(Product){
                     res.status(204).send('Removed');
                 }
             });
+        })
+        //Options Detail
+        .options(function(req, res){
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
+            res.header('Allow', 'GET,PUT,PATCH,DELETE,OPTIONS');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,DELETE,OPTIONS');
+            res.send(200);
         });
     return productRouter;
 };
