@@ -2,10 +2,3 @@
 	"uri":"http://server.arvex.nl/",
 	"uitleg": "Deze service geeft producten weer die in de supermarkt aanwezig zijn. Daarbij heeft elk product een waarde in duurzaampunten"
 }
-
-proxy_pass http://localhost:8000;
-proxy_http_version 1.1;
-proxy_set_header Upgrade $http_upgrades;
-pxoxy_set_header Connection 'upgrade';
-proxy_set_header Host $host;
-proxy_cache_bypass $http_upgrade;

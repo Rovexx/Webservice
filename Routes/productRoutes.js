@@ -6,25 +6,12 @@ var routes = function(Product){
 
     var productController = require('../Controllers/productController')(Product);
     productRouter.route('/')
+        .options()
         .post(productController.post)
         .get(productController.get);
 
     // middleware
     productRouter.use('/:productId', function(req, res, next){
-        res.header('Access-Control-Allow-Origin', '*');
-        res.header('Access-Control-Allow-Methods', 'GET, PUT, POST, DELETE, OPTIONS');
-        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
-
-        //intercepts OPTIONS method
-        if ('OPTIONS' === req.method) {
-            //respond with 200
-            res.send(200);
-        }
-        else {
-        //move on
-            next();
-        }
-
         Product.findById(req.params.productId, function(err, product){
             if(err)
                 res.status(500).send(err);
@@ -36,8 +23,25 @@ var routes = function(Product){
                 res.status(404).send('No product found');
             }
         });
+        Product.options('/productId', function(req, res, next){
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
+            res.header('Allow', 'GET,PUT,POST,DELETE,OPTIONS');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+            res.send(200);
+        });
     })
+    //Options
+    productRouter.options('/', (req, res) => { 
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
+        res.header('Allow', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+        res.send(200);
+    })
+
     //individual products
+
     productRouter.route('/:productId')
         .get(function(req, res){
             var returnProduct = req.product.toJSON();

@@ -23,7 +23,6 @@ productRouter = require('./Routes/productRoutes')(Product);
 app.use('/api/products', productRouter);
 //app.use('/api/brands', brandRouter);
 
-
 app.get('/', function(req, res){
     res.send('Welcome to my API');
 });
