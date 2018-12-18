@@ -1,4 +1,4 @@
 {
-	"uri":"http://server.arvex.nl/",
+	"uri":"http://server.arvex.nl/api/products",
 	"uitleg": "Deze service geeft producten weer die in de supermarkt aanwezig zijn. Daarbij heeft elk product een waarde in duurzaampunten"
 }

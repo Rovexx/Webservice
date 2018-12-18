@@ -17,6 +17,17 @@ var port = process.env.PORT || 8000;
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
+//options
+app.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'origin, content-type, accept');
+    if (req.accepts('json' || 'xml' || 'x-www-form-urlencoded')) {
+        next();
+    } else {
+        res.sendStatus(406);
+    }
+});
+
 // router
 productRouter = require('./Routes/productRoutes')(Product);
 

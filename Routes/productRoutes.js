@@ -10,9 +10,9 @@ var routes = function(Product){
         .options(function(req, res){
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
-            res.header('Allow', 'HEAD,GET,POST,OPTIONS');
-            res.header('Access-Control-Allow-Methods', 'HEAD,GET,POST,OPTIONS');
-            res.send(200);
+            res.header('Allow', 'GET,POST,OPTIONS');
+            res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
+            res.sendStatus(200);
         })
         .post(productController.post)
         .get(productController.get);
@@ -86,9 +86,9 @@ var routes = function(Product){
         .options(function(req, res){
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, ContentType, Accept");
-            res.header('Allow', 'HEAD,GET,PUT,PATCH,DELETE,OPTIONS');
-            res.header('Access-Control-Allow-Methods', 'HEAD,GET,PUT,PATCH,DELETE,OPTIONS');
-            res.send(200);
+            res.header('Allow', 'GET,PUT,PATCH,DELETE,OPTIONS');
+            res.header('Access-Control-Allow-Methods', 'GET,PUT,PATCH,DELETE,OPTIONS');
+            res.sendStatus(200);
         });
     return productRouter;
 };

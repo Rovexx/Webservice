@@ -4,7 +4,7 @@ var mongoose = require('mongoose'),
 var productModel = new Schema({
     name: {type: String},
     brand: {type: String},
-    spoiled: {type: Boolean, default:false},
+    spoiled: {type: String},
 }, {versionKey: false
 });
 
