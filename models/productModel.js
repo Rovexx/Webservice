@@ -5,7 +5,8 @@ var productModel = new Schema({
     name: {type: String},
     brand: {type: String},
     spoiled: {type: String},
-}, {versionKey: false
+    }, 
+    {versionKey: false
 });
 
 module.exports = mongoose.model('Product', productModel);

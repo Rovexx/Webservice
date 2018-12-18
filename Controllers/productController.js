@@ -6,6 +6,14 @@ let productController = function(Product){
             res.status(400);
             res.send("Name is required");
         }
+        if(!req.body.brand){
+            res.status(400);
+            res.send("Brand is required");
+        }
+        if(!req.body.spoiled){
+            res.status(400);
+            res.send("Spoiled status is required");
+        }
         else{
             //save the product
             product.save();
@@ -28,14 +36,15 @@ let productController = function(Product){
             if(err)
                 res.status(500).send(err);
             else
-            var returnProducts = [];
+            var items = [];
             products.forEach(function(element, index, array){
-                let newProduct = element.toJSON();
-                newProduct.links = {};
-                newProduct.links.self = 'http://' + req.headers.host + '/api/products/' + newProduct._id
-                newProduct.links.collection = 'http://' + req.headers.host + '/api/products/'
-                returnProducts.push(newProduct);
+                let item = element.toJSON();
+                item._links = {};
+                item._links.self = { 'href' : 'http://' + req.headers.host + '/api/products/' + item._id};
+                item._links.collection = { 'href' : 'http://' + req.headers.host + '/api/products/'};
+                items.push(item);
             })
+            let _links = {"self": {'href' : 'http://' + req.headers.host + '/api/products/'}}
             // static pagination
             let pagination = {
                 "currentPage": 1,
@@ -61,17 +70,8 @@ let productController = function(Product){
                     }
                 }
             }
-            // returnProducts.pagination.currentpage = 1;
-            // returnProducts.pagination.currentitems = 32;
-            // returnProducts.pagination.totalpages = 32;
-
-            // returnProducts.pagination.First = 'http://' + req.headers.host + '/api/products/';
-            // returnProducts.pagination.Last = 'http://' + req.headers.host + '/api/products/';
-            // returnProducts.pagination.Previous = 'http://' + req.headers.host + '/api/products/';
-            // returnProducts.pagination.Next = 'http://' + req.headers.host + '/api/products/';
-            // returnProducts.push(returnProducts.pagination);
-            
-            res.json({returnProducts,pagination});
+           
+            res.json({items,_links,pagination});
         });
     }
 

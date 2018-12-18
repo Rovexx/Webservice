@@ -37,11 +37,13 @@ let routes = function(Product){
         .get(function(req, res){
             let returnProduct = req.product.toJSON();
             // links
-            returnProduct.links = {};
+            returnProduct._links = {};
+            returnProduct._links.self = { 'href' : 'http://' + req.headers.host + '/api/products/' + returnProduct._id};
+            returnProduct._links.collection = { 'href' : 'http://' + req.headers.host + '/api/products/'};
             let brandFilter = 'http://' + req.headers.host + '/api/products/?brand=' + returnProduct.brand;
-            returnProduct.links.FilterByThisBrand = brandFilter.replace(' ', '%20');
+            returnProduct._links.FilterByThisBrand = brandFilter.replace(' ', '%20');
             let nameFilter = 'http://' + req.headers.host + '/api/products/?name=' + returnProduct.name;
-            returnProduct.links.FilterByThisName = nameFilter.replace(' ', '%20');
+            returnProduct._links.FilterByThisName = nameFilter.replace(' ', '%20');
             res.json(returnProduct);
 
         })
