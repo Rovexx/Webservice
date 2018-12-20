@@ -6,6 +6,8 @@ let routes = function(Product){
 
     let productController = require('../Controllers/productController')(Product);
     productRouter.route('/')
+        .post(productController.post)
+        .get(productController.get)
         //Options collection
         .options(function(req, res){
             res.header("Access-Control-Allow-Origin", "*");
@@ -13,9 +15,7 @@ let routes = function(Product){
             res.header('Allow', 'GET,POST,OPTIONS');
             res.header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS');
             res.sendStatus(200);
-        })
-        .post(productController.post)
-        .get(productController.get);
+        });
 
     // middleware
     productRouter.use('/:productId', function(req, res, next){
@@ -49,16 +49,30 @@ let routes = function(Product){
         })
 
         .put(function(req, res){
-            req.product.name = req.body.name;
-            req.product.brand = req.body.brand;
-            req.product.spoiled = req.body.spolied;
-            req.product.save(function(err){
-                if(err)
-                res.status(500).send(err);
-                else{
-                    res.json(req.product);
-                }
-            });
+            if(!req.body.spoiled){
+                res.status(400);
+                res.send("Spoiled status is required");
+            }
+            else if(!req.body.name){
+                res.status(400);
+                res.send("Name is required");
+            }
+            else if(!req.body.brand){
+                res.status(400);
+                res.send("Brand is required");
+            }
+            else{
+                req.product.spoiled = req.body.spoiled;
+                req.product.name = req.body.name;
+                req.product.brand = req.body.brand;
+                req.product.save(function(err){
+                    if(err)
+                    res.status(500).send(err);
+                    else{
+                        res.json(req.product);
+                    }
+                });
+            }
         })
 
         .patch(function(req, res){

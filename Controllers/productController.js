@@ -6,11 +6,11 @@ let productController = function(Product){
             res.status(400);
             res.send("Name is required");
         }
-        if(!req.body.brand){
+        else if(!req.body.brand){
             res.status(400);
             res.send("Brand is required");
         }
-        if(!req.body.spoiled){
+        else if(!req.body.spoiled){
             res.status(400);
             res.send("Spoiled status is required");
         }
