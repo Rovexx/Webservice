@@ -45,32 +45,34 @@ let productController = function(Product){
                 items.push(item);
             })
             let _links = {"self": {'href' : 'http://' + req.headers.host + '/api/products/'}}
-            // static pagination
+            // pagination
+            let limit = 5;
+            let totalitems = products.length;
+            let totalPages = (totalitems/limit);
             let pagination = {
                 "currentPage": 1,
-                "currentItems": 35,
-                "totalPages": 1,
-                "totalItems": 35,
+                "currentItems": 6,
+                "totalPages": totalPages,
+                "totalItems": totalitems,
                 "_links": {
                     "first": {
                         "page": 1,
-                        "href": "https://docent.cmi.hro.nl/bootb/demo/notes/"
+                        "href": "https://server.arvex.nl/api/products/"
                     },
                     "last": {
                         "page": 1,
-                        "href": "https://docent.cmi.hro.nl/bootb/demo/notes/"
+                        "href": "https://server.arvex.nl/api/products/"
                     },
                     "previous": {
                         "page": 1,
-                        "href": "https://docent.cmi.hro.nl/bootb/demo/notes/"
+                        "href": "https://server.arvex.nl/api/products/"
                     },
                     "next": {
                         "page": 1,
-                        "href": "https://docent.cmi.hro.nl/bootb/demo/notes/"
+                        "href": "https://server.arvex.nl/api/products/"
                     }
                 }
             }
-           
             res.json({items,_links,pagination});
         });
     }
