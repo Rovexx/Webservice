@@ -47,29 +47,43 @@ let productController = function(Product){
             let _links = {"self": {'href' : 'http://' + req.headers.host + '/api/products/'}}
             // pagination
             let limit = 5;
-            let totalitems = products.length;
-            let totalPages = (totalitems/limit);
+            let currentPage = 0;
+            let totalItems = products.length;
+            let totalPages = Math.ceil(totalItems/limit);
+            let currentItems = (totalItems-(currentPage*limit));
+            let lastPage = (totalPages-1);
+            let previousPage = 0;
+            let nextPage = 0;
+            
+            let previousPageCalc = function(){
+                if (currentPage != 0){previousPage = (currentPage - 1);}
+            };
+            let nextPageCalc = function(){
+                if (currentPage != lastPage){nextPage = (currentPage + 1);}
+            };
+            previousPageCalc();
+            nextPageCalc();
             let pagination = {
-                "currentPage": 1,
-                "currentItems": 6,
+                "currentPage": currentPage,
+                "currentItems": currentItems,
                 "totalPages": totalPages,
-                "totalItems": totalitems,
+                "totalItems": totalItems,
                 "_links": {
                     "first": {
-                        "page": 1,
-                        "href": "https://server.arvex.nl/api/products/"
+                        "page": 0,
+                        "href": 'http://' + req.headers.host + '/api/products/&page=0'
                     },
                     "last": {
-                        "page": 1,
-                        "href": "https://server.arvex.nl/api/products/"
+                        "page": totalPages,
+                        "href": 'http://' + req.headers.host + '/api/products/&page=' + lastPage
                     },
                     "previous": {
-                        "page": 1,
-                        "href": "https://server.arvex.nl/api/products/"
+                        "page": previousPage,
+                        "href": 'http://' + req.headers.host + '/api/products/&page=' + previousPage
                     },
                     "next": {
-                        "page": 1,
-                        "href": "https://server.arvex.nl/api/products/"
+                        "page": nextPage,
+                        "href": 'http://' + req.headers.host + '/api/products/&page=' + nextPage
                     }
                 }
             }
